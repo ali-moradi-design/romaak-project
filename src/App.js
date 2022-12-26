@@ -3,6 +3,7 @@ import HeaderPrimary from "./components/ui/Header";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import MuiTable from "./pages/MuiTable";
+import AgGrid from "./pages/AgGrid";
 
 const App = () => {
   return (
@@ -13,7 +14,7 @@ const App = () => {
           <Route path="/" element={<LoginPage />} />
           <Route path="homepage" element={<HomePage />} />
           <Route path="mui-table" element={<MuiTable />} />
-          <Route path="ag-grid" element={<MuiTable />} />
+          <Route path="ag-grid" element={<AgGrid />} />
         </Routes>
       </BrowserRouter>
     </>

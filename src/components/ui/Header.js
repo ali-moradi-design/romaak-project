@@ -214,7 +214,7 @@ const HeaderPrimary = () => {
   const mainMenu = [
     {
       title: "Simple Table",
-      url: "/hompage",
+      url: "/homepage",
       ariaLabel: "Simple Table"
     },
     {

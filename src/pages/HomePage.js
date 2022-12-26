@@ -42,7 +42,7 @@ const s = {
   },
 
   tr: {
-    "&:nth-child(even)": {
+    "&:nth-of-type(even)": {
       background: "#f2f2f2"
     },
     "&:hover": {
