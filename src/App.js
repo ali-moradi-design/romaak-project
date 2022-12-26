@@ -13,6 +13,7 @@ const App = () => {
           <Route path="/" element={<LoginPage />} />
           <Route path="homepage" element={<HomePage />} />
           <Route path="mui-table" element={<MuiTable />} />
+          <Route path="ag-grid" element={<MuiTable />} />
         </Routes>
       </BrowserRouter>
     </>

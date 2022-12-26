@@ -3,52 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../actions/productAction";
 import Loader from "../components/ui/Loader";
 import Message from "../components/ui/Message";
+import EnhancedTable from "../components/EnhancedTable/EnhancedTable";
 import { Box, Container, Grid, Pagination } from "@mui/material";
 
 const s = {
-  product: {
-    display: "block",
-    fontSize: "4rem"
+  tableMain: {
+    width: "100%"
   },
+
   tableContainerMain: {
     mt: "5rem",
     borderRadius: "1rem",
     boxShadow: "inset 0px 3px 6px rgba(0,0,0,0.16),0px 3px 6px rgba(0,0,0,0.16)",
     mb: "4rem"
   },
-  table: {
-    borderCollapse: "collapse",
-    background: "#fff",
-    overflow: "hidden",
-    width: " 100%",
-    m: "0 auto",
-    position: "relative"
-  },
-  tableHead: {
-    backgroundColor: "primary.main",
-    color: "#fff",
-    p: "1rem"
-  },
-  cell: {
-    fontSize: {
-      xs: "1rem",
-      sm: "1.2rem",
-      md: "1.4rem",
-      lg: "1.6rem"
-    },
-    p: "0.8rem",
-    border: "1px solid #ddd",
-    textAlign: "center"
-  },
 
-  tr: {
-    "&:nth-child(even)": {
-      background: "#f2f2f2"
-    },
-    "&:hover": {
-      background: "#ddd"
-    }
-  },
   pagination: {
     mb: "8rem",
     "&.MuiPagination-root": {
@@ -112,18 +81,6 @@ const MuiTable = () => {
 
   const lastPage = Math.ceil(total / perPage);
 
-  const tableHeadItems = [
-    { id: 1, name: "id" },
-    { id: 2, name: "title" },
-    { id: 4, name: "description" },
-    { id: 5, name: "price" },
-    { id: 6, name: "discountPercentage" },
-    { id: 7, name: "rating" },
-    { id: 8, name: "stock" },
-    { id: 9, name: "brand" },
-    { id: 10, name: "category" }
-  ];
-
   useEffect(() => {
     dispatch(listProducts(perPage, perPage * (page - 1)));
   }, [dispatch, page]);
@@ -131,7 +88,6 @@ const MuiTable = () => {
   useEffect(() => {
     setTotal(totalPage);
   }, [totalPage]);
-  console.log(total);
 
   return (
     <Box
@@ -162,63 +118,9 @@ const MuiTable = () => {
                       width: "100%",
                       overflowX: "auto"
                     }}>
-                    <Box component="table" sx={s.table}>
-                      <Box component="thead" sx={s.tableHead}>
-                        <Box component="tr">
-                          {tableHeadItems.map((el) => (
-                            <Box key={el.id} component="th" sx={s.cell}>
-                              {el.name}
-                            </Box>
-                          ))}
-                        </Box>
-                      </Box>
-                      <Box component="tbody">
-                        {products.map(
-                          ({
-                            id,
-                            title,
-                            description,
-                            price,
-                            discountPercentage,
-                            rating,
-                            stock,
-                            brand,
-                            category
-                          }) => (
-                            <Box component="tr" key={id} sx={s.tr}>
-                              <Box component="td" sx={s.cell}>
-                                {id}
-                              </Box>
-
-                              <Box component="td" sx={s.cell}>
-                                {title}
-                              </Box>
-                              <Box component="td" sx={s.cell}>
-                                {description}
-                              </Box>
-                              <Box component="td" sx={s.cell}>
-                                {price}
-                              </Box>
-                              <Box component="td" sx={s.cell}>
-                                {discountPercentage}
-                              </Box>
-                              <Box component="td" sx={s.cell}>
-                                {rating}
-                              </Box>
-                              <Box component="td" sx={s.cell}>
-                                {stock}
-                              </Box>
-                              <Box component="td" sx={s.cell}>
-                                {brand}
-                              </Box>
-                              <Box component="td" sx={s.cell}>
-                                {category}
-                              </Box>
-                            </Box>
-                          )
-                        )}
-                      </Box>
-                    </Box>
+                    <Grid container direction="column" sx={s.tableMain}>
+                      <EnhancedTable products={products ? products : []} />
+                    </Grid>
                   </Box>
                 </Grid>
               </Grid>

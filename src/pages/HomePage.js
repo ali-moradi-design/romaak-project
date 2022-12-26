@@ -131,7 +131,6 @@ const HomePage = () => {
   useEffect(() => {
     setTotal(totalPage);
   }, [totalPage]);
-  console.log(total);
 
   return (
     <Box
