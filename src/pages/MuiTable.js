@@ -98,7 +98,7 @@ const s = {
 
 const perPage = 10;
 
-const HomePage = () => {
+const MuiTable = () => {
   const [total, setTotal] = useState(10);
   const [page, setPage] = useState(1);
 
@@ -238,4 +238,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default MuiTable;

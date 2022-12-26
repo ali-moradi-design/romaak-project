@@ -1,7 +1,8 @@
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HeaderPrimary from "./components/ui/Header";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
+import MuiTable from "./pages/MuiTable";
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="homepage" element={<HomePage />} />
+          <Route path="mui-table" element={<MuiTable />} />
         </Routes>
       </BrowserRouter>
     </>

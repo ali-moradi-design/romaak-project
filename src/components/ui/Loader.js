@@ -6,7 +6,7 @@ const loader = () => {
   return (
     <Grid container justify="center">
       <Grid item style={{ padding: "5rem", marginBottom: "19rem" }}>
-        <CircularProgress size="5rem" />
+        <CircularProgress size="5rem" sx={{ color: "#325123" }} />
       </Grid>
     </Grid>
   );

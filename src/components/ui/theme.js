@@ -38,7 +38,7 @@ const theme = createTheme({
       yellow: yellow
     },
     primary: {
-      main: purple
+      main: "#556f23"
     },
     secondary: {
       main: dark

@@ -18,6 +18,8 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import RommakImage from "../../assets/images/romaak-main.webp";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../actions/userAction";
 
 const s = {
   headerBtn: {
@@ -164,7 +166,8 @@ const s = {
     },
     mb: "2rem",
     boxShadow: "inset 0px 3px 6px rgba(0,0,0,0.06), 0px 3px 6px rgba(0,0,0,0.03)",
-    borderRadius: "1rem"
+    borderRadius: "1rem",
+    cursor: "pointer"
   },
   mainDrawer: {
     "& .MuiDrawer-paper": {
@@ -174,6 +177,15 @@ const s = {
       pt: "4rem",
       px: "2rem"
     }
+  },
+  logout: {
+    backgroundColor: "#000",
+    color: "#fff",
+    px: "2rem",
+    ":hover": {
+      backgroundColor: "#556f23",
+      color: "#fff"
+    }
   }
 };
 
@@ -182,6 +194,16 @@ const HeaderPrimary = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo, error } = userLogin;
+
+  const onLogout = () => {
+    dispatch(logout());
+  };
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -191,177 +213,141 @@ const HeaderPrimary = () => {
 
   const mainMenu = [
     {
-      title: "HOME",
-      url: "/",
-      ariaLabel: "home"
+      title: "Simple Table",
+      url: "/hompage",
+      ariaLabel: "Simple Table"
     },
     {
-      title: "ABOUT AS",
-      url: "/about-us",
-      ariaLabel: "about us"
+      title: "MUI Table",
+      url: "/mui-table",
+      ariaLabel: "MUI Table"
     },
     {
-      title: "CONTACT US",
-      url: "/contact-us",
-      ariaLabel: "contsct us"
-    },
-
-    {
-      title: "RESRUITMENT",
-      url: "/resruitment",
-      ariaLabel: "resruitment"
-    },
-
-    {
-      title: "PRODUCTS",
-      // url: "/products",
-      ariaLabel: "product",
-      subTitles: [
-        {
-          title: "karma-HCG",
-          urlTwo: "/products/infertility/hcg"
-        },
-        {
-          title: "karma-FSH",
-          urlTwo: "/products/infertility/fsh"
-        },
-        {
-          title: "karma-HMG",
-          urlTwo: "/products/infertility/hmg "
-        },
-        {
-          title: "Microrelin 3.75",
-          urlTwo: "/products/cancer/microrelin-3.75mg"
-        },
-        {
-          title: "Microrelin 11.25",
-          urlTwo: "/products/cancer/microrelin-11.25mg"
-        },
-        {
-          title: "Sandosphere LAR",
-          urlTwo: "/products/cardiovascular-disease/sandosphere"
-        },
-        {
-          title: "Zoledoma",
-          urlTwo: "/products/cardiovascular-disease/zoledoma"
-        },
-        {
-          title: "ADENOCELL",
-          urlTwo: "/products/cardiovascular-disease/adenocell"
-        }
-      ],
-      click: (event) => handleClick(event)
-    },
-    {
-      title: "MEDIA",
-      url: "/media",
-      ariaLabel: "media"
-    },
-
-    {
-      title: "ARTICLES",
-      url: "/articles",
-      ariaLabel: "articles"
+      title: "Ag-grid Table",
+      url: "/ag-grid",
+      ariaLabel: "Ag-grid Table"
     }
   ];
 
   const tabs = (
-    <Grid item sx={{ display: { xs: "none", lg: "block" } }}>
-      <Grid container sx={{ gap: "2.4rem" }}>
-        {mainMenu.map(({ title, url, ariaLabel, subTitles, click }) => (
-          <React.Fragment key={title}>
-            <Button
-              sx={s.headerBtn}
-              component={url ? Link : Button}
-              to={url}
-              aria-label={ariaLabel}
-              onClick={click ? click : undefined}>
-              {title}
+    <>
+      {userInfo && Object.keys(userInfo).length !== 0 ? (
+        <Grid item sx={{ display: { xs: "none", md: "block" } }}>
+          <Grid container sx={{ gap: "2.4rem" }}>
+            {mainMenu.map(({ title, url, ariaLabel, subTitles, click }) => (
+              <React.Fragment key={title}>
+                <Button
+                  sx={s.headerBtn}
+                  component={url ? Link : Button}
+                  to={url}
+                  aria-label={ariaLabel}
+                  onClick={click ? click : undefined}>
+                  {title}
+                </Button>
+                {click && (
+                  <>
+                    <Menu
+                      id="product-menu"
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      MenuListProps={{
+                        "aria-labelledby": "product-items"
+                      }}
+                      sx={s.menuStyle}>
+                      {subTitles.map(({ title, urlTwo }) => (
+                        <MenuItem divider key={title} component={Link} to={urlTwo}>
+                          {title}
+                        </MenuItem>
+                      ))}
+                    </Menu>
+                  </>
+                )}
+              </React.Fragment>
+            ))}
+
+            <Button sx={s.logout} onClick={onLogout}>
+              Log out{" "}
             </Button>
-            {click && (
-              <>
-                <Menu
-                  id="product-menu"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  MenuListProps={{
-                    "aria-labelledby": "product-items"
-                  }}
-                  sx={s.menuStyle}>
-                  {subTitles.map(({ title, urlTwo }) => (
-                    <MenuItem divider key={title} component={Link} href={urlTwo}>
-                      {title}
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </>
-            )}
-          </React.Fragment>
-        ))}
-      </Grid>
-    </Grid>
+          </Grid>
+        </Grid>
+      ) : (
+        <></>
+      )}
+    </>
   );
 
   const drawer = (
-    <Box sx={{ display: { lg: "none", xs: "block" } }}>
-      <SwipeableDrawer
-        anchor="right"
-        open={openDrawer}
-        onClose={() => setOpenDrawer(false)}
-        onOpen={() => setOpenDrawer(true)}
-        sx={s.mainDrawer}>
-        <List disablePadding>
-          {mainMenu.map(({ title, url, ariaLabel, subTitles, click }) => (
-            <React.Fragment key={Math.random()}>
-              {subTitles !== undefined ? (
-                <Accordion elevation={0} sx={s.expansion}>
-                  <AccordionSummary sx={s.expansionSummary} expandIcon={<ExpandMoreIcon />}>
-                    <ListItem aria-label={ariaLabel}>
-                      <ListItemText disableTypography>{title}</ListItemText>
-                    </ListItem>
-                  </AccordionSummary>
-                  {subTitles.map(({ title, urlTwo }) => (
-                    <AccordionDetails key={Math.random()} sx={s.expansionDetails}>
+    <>
+      {" "}
+      {userInfo && Object.keys(userInfo).length !== 0 ? (
+        <Box sx={{ display: { md: "none", xs: "block" } }}>
+          <SwipeableDrawer
+            anchor="right"
+            open={openDrawer}
+            onClose={() => setOpenDrawer(false)}
+            onOpen={() => setOpenDrawer(true)}
+            sx={s.mainDrawer}>
+            <List disablePadding>
+              {mainMenu.map(({ title, url, ariaLabel, subTitles, click }) => (
+                <React.Fragment key={Math.random()}>
+                  {subTitles !== undefined ? (
+                    <Accordion elevation={0} sx={s.expansion}>
+                      <AccordionSummary sx={s.expansionSummary} expandIcon={<ExpandMoreIcon />}>
+                        <ListItem aria-label={ariaLabel}>
+                          <ListItemText disableTypography>{title}</ListItemText>
+                        </ListItem>
+                      </AccordionSummary>
+
+                      {subTitles.map(({ title, urlTwo }) => (
+                        <AccordionDetails key={Math.random()} sx={s.expansionDetails}>
+                          <ListItem
+                            aria-label={ariaLabel}
+                            onClick={() => {
+                              setOpenDrawer(false);
+                            }}
+                            // divider
+                            button
+                            component={Link}
+                            to={urlTwo}>
+                            <ListItemText disableTypography>{title}</ListItemText>
+                          </ListItem>
+                        </AccordionDetails>
+                      ))}
+                    </Accordion>
+                  ) : (
+                    <>
                       <ListItem
-                        aria-label={ariaLabel}
                         onClick={() => {
                           setOpenDrawer(false);
                         }}
-                        // divider
-                        button
-                        component={Link}
-                        href={urlTwo}>
+                        divider
+                        component={url ? Link : ListItem}
+                        to={url}
+                        sx={s.drawerListStyle}>
                         <ListItemText disableTypography>{title}</ListItemText>
                       </ListItem>
-                    </AccordionDetails>
-                  ))}
-                </Accordion>
-              ) : (
-                <ListItem
-                  onClick={() => {
-                    setOpenDrawer(false);
-                  }}
-                  divider
-                  button
-                  component={url ? Link : ListItem}
-                  href={url}
-                  sx={s.drawerListStyle}>
-                  <ListItemText disableTypography>{title}</ListItemText>
-                </ListItem>
-              )}
-            </React.Fragment>
-          ))}
-        </List>
-      </SwipeableDrawer>
-      <IconButton
-        sx={{ color: "#556f23", fontSize: "4rem" }}
-        onClick={() => setOpenDrawer(!openDrawer)}
-        disableRipple
-        size="large">
-        <MenuIcon />
-      </IconButton>
-    </Box>
+                    </>
+                  )}
+                </React.Fragment>
+              ))}
+              <ListItem onClick={onLogout} sx={s.drawerListStyle}>
+                <ListItemText disableTypography>logout</ListItemText>
+              </ListItem>
+            </List>
+          </SwipeableDrawer>
+          <IconButton
+            sx={{ color: "#556f23", fontSize: "4rem" }}
+            onClick={() => setOpenDrawer(!openDrawer)}
+            disableRipple
+            size="large">
+            <MenuIcon />
+          </IconButton>
+        </Box>
+      ) : (
+        <></>
+      )}
+    </>
   );
 
   return (
@@ -384,9 +370,9 @@ const HeaderPrimary = () => {
           <Grid item>
             <Button
               component={Link}
-              href="/"
+              to="/"
               disableRipple
-              aria-label="Homa Pharmed Logo"
+              aria-label="romaak"
               sx={{
                 p: 0,
                 textDecoration: "none",
